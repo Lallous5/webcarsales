@@ -16,11 +16,28 @@ class CarController extends GetxController {
   TextEditingController searchFeautedController = TextEditingController();
 
   RxString carsSearchString = RxString("");
+
+  List<String> sortList = [
+    "A to Z",
+    "Z to A",
+    "High Price",
+    "Low Price",
+    "New to Old",
+    "Old to New",
+  ];
+  RxString selectedSort = RxString("A to Z");
+
   StreamSubscription? _subscriptionEventLists;
 
   @override
   void onInit() {
     super.onInit();
+    selectedSort.listen((e) {
+      print('listener triggered');
+      getFeaturedCars();
+      getRecommendedCars();
+      
+    });
     getFeaturedCars();
     getRecommendedCars();
   }
@@ -29,7 +46,7 @@ class CarController extends GetxController {
     try {
       carsFeatured.value = null;
 
-      var stream = eventManager.getFutureCars(true);
+      var stream = eventManager.getFutureCars(true, selectedSort.value);
 
       _subscriptionEventLists = stream.listen((event) async {
         carsFeatured.value = event;
@@ -52,7 +69,7 @@ class CarController extends GetxController {
     try {
       carsRec.value = null;
 
-      var stream = eventManager.getFutureCars(false);
+      var stream = eventManager.getFutureCars(false, selectedSort.value);
 
       _subscriptionEventLists = stream.listen((event) async {
         carsRec.value = event;

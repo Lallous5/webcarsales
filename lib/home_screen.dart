@@ -1,4 +1,3 @@
-
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
@@ -9,6 +8,7 @@ import 'package:webappcarsales/car_card.dart';
 import 'package:webappcarsales/car_model.dart';
 
 import 'car_controller.dart';
+import 'dropdown.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -96,68 +96,127 @@ class _HomePageState extends State<HomePage> {
                   padding: const EdgeInsetsDirectional.fromSTEB(10, 0, 10, 5),
                   child: Padding(
                     padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
-                    child: Container(
-                      width: MediaQuery.of(context).size.width,
-                      height: 50,
-                      decoration: BoxDecoration(
-                        color: const Color.fromARGB(255, 22, 26, 37),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: TextFormField(
-                        autofocus: true,
-                        controller: carController.searchFeautedController,
-                        onChanged: (value) {
-                          carController.carsSearchString.value =
-                              value.toLowerCase();
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            // width: MediaQuery.of(context).size.width,
+                            height: 50,
+                            decoration: BoxDecoration(
+                              color: const Color.fromARGB(255, 22, 26, 37),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: TextFormField(
+                              autofocus: true,
+                              controller: carController.searchFeautedController,
+                              onChanged: (value) {
+                                carController.carsSearchString.value =
+                                    value.toLowerCase();
 
-                          if (kDebugMode) {
-                            print(carController.carsSearchString);
-                          }
-                        },
-                        obscureText: false,
-                        decoration: const InputDecoration(
-                          hintText: 'Search for car',
-                          hintStyle: TextStyle(
-                            fontFamily: 'Poppins',
-                            color: Color.fromARGB(138, 255, 255, 255),
-                            fontSize: 12,
-                            fontWeight: FontWeight.normal,
-                          ),
-                          enabledBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Color(0x00000000),
-                              width: 1,
+                                if (kDebugMode) {
+                                  print(carController.carsSearchString);
+                                }
+                              },
+                              obscureText: false,
+                              decoration: const InputDecoration(
+                                hintText: 'Search for car',
+                                hintStyle: TextStyle(
+                                  fontFamily: 'Poppins',
+                                  color: Color.fromARGB(138, 255, 255, 255),
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.normal,
+                                ),
+                                enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Color(0x00000000),
+                                    width: 1,
+                                  ),
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(4.0),
+                                    topRight: Radius.circular(4.0),
+                                  ),
+                                ),
+                                focusedBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Color(0x00000000),
+                                    width: 1,
+                                  ),
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(4.0),
+                                    topRight: Radius.circular(4.0),
+                                  ),
+                                ),
+                                contentPadding:
+                                    EdgeInsetsDirectional.fromSTEB(0, 15, 0, 0),
+                                prefixIcon: Icon(
+                                  Icons.search,
+                                  color: Colors.white70,
+                                  size: 18,
+                                ),
+                              ),
+                              style: const TextStyle(
+                                fontFamily: 'Poppins',
+                                color: Colors.white70,
+                                fontSize: 12,
+                                fontWeight: FontWeight.normal,
+                              ),
                             ),
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(4.0),
-                              topRight: Radius.circular(4.0),
-                            ),
-                          ),
-                          focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Color(0x00000000),
-                              width: 1,
-                            ),
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(4.0),
-                              topRight: Radius.circular(4.0),
-                            ),
-                          ),
-                          contentPadding:
-                              EdgeInsetsDirectional.fromSTEB(0, 15, 0, 0),
-                          prefixIcon: Icon(
-                            Icons.search,
-                            color: Colors.white70,
-                            size: 18,
                           ),
                         ),
-                        style: const TextStyle(
-                          fontFamily: 'Poppins',
-                          color: Colors.white70,
-                          fontSize: 12,
-                          fontWeight: FontWeight.normal,
-                        ),
-                      ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            width: 120,
+                            height: 50,
+                            decoration: BoxDecoration(
+                              color: const Color.fromARGB(255, 22, 26, 37),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: FlutterFlowDropDown(
+                              initialOption: carController.selectedSort.value,
+                              options: carController.sortList,
+                              onChanged: (val) {
+                                setState(() {
+                                  print(val);
+                                  carController.selectedSort.value = val;
+                                });
+                              },
+                              names: carController.sortList,
+                              textStyle: TextStyle(
+                                  fontFamily: 'Poppins',
+                                  fontSize: 14,
+                                  color: Colors.white70),
+                              elevation: 0,
+                              fillColor: const Color.fromARGB(255, 19, 23, 32),
+                              borderColor: Colors.transparent,
+                              borderWidth: 0,
+                              icon: ShaderMask(
+                                blendMode: BlendMode.srcIn,
+                                shaderCallback: (Rect bounds) {
+                                  return const RadialGradient(
+                                    center: Alignment.topLeft,
+                                    radius: 0.5,
+                                    colors: <Color>[
+                                      Color(0xB1E51F5C),
+                                      Color(0xFFCB7149)
+                                    ],
+                                    tileMode: TileMode.mirror,
+                                  ).createShader(bounds);
+                                },
+                                child: const Icon(
+                                  Icons.arrow_drop_down_circle_rounded,
+                                  size: 25,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              borderRadius: 10,
+                              margin: const EdgeInsetsDirectional.fromSTEB(
+                                  12, 0, 12, 0),
+                              hidesUnderline: true,
+                            ),
+                          ),
+                        )
+                      ],
                     ),
                   ),
                 ),
@@ -227,14 +286,19 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
               _cardsFeaturedList(),
-              const Padding(
+              Padding(
                 padding: EdgeInsetsDirectional.fromSTEB(20, 0, 0, 0),
-                child: Text(
-                  "For Sale",
-                  style: TextStyle(
-                      fontSize: 44,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white),
+                child: InkWell(
+                  onTap: () {
+                    setState(() {});
+                  },
+                  child: Text(
+                    "For Sale",
+                    style: TextStyle(
+                        fontSize: 44,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white),
+                  ),
                 ),
               ),
               _cardsRecommendedList(),
