@@ -1,9 +1,8 @@
 import 'dart:async';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:webappcarsales/manage_cars.dart';
 import 'package:webappcarsales/services.dart';
 
 import 'car_model.dart';
@@ -21,7 +20,6 @@ class CarController extends GetxController {
 
   @override
   void onInit() {
-    // TODO: implement onInit
     super.onInit();
     getFeaturedCars();
     getRecommendedCars();
@@ -41,8 +39,12 @@ class CarController extends GetxController {
 
       update();
     } catch (e) {
-      print("setEventLists catch");
-      print(e);
+      if (kDebugMode) {
+        print("setEventLists catch");
+      }
+      if (kDebugMode) {
+        print(e);
+      }
     }
   }
 
@@ -60,8 +62,12 @@ class CarController extends GetxController {
 
       update();
     } catch (e) {
-      print("setEventLists catch");
-      print(e);
+      if (kDebugMode) {
+        print("setEventLists catch");
+      }
+      if (kDebugMode) {
+        print(e);
+      }
     }
   }
 

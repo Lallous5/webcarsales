@@ -1,4 +1,3 @@
-import 'dart:ui';
 
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -7,9 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:webappcarsales/car_card.dart';
-import 'package:webappcarsales/car_details.dart';
 import 'package:webappcarsales/car_model.dart';
-import 'package:webappcarsales/services.dart';
 
 import 'car_controller.dart';
 
@@ -87,14 +84,14 @@ class _HomePageState extends State<HomePage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _typeWriter(),
-              Image.network(
-                "https://www.freewebheaders.com/wp-content/gallery/cars/blue-bmw-alpina-b6-xdrive-gran-coupe-car-web-header.jpg",
+              Image.asset(
+                "assets/header.jpg",
                 fit: BoxFit.cover,
                 height: 390,
                 width: MediaQuery.of(context).size.width,
               ),
               Container(
-                color: Color.fromARGB(255, 13, 16, 22),
+                color: const Color.fromARGB(255, 13, 16, 22),
                 child: Padding(
                   padding: const EdgeInsetsDirectional.fromSTEB(10, 0, 10, 5),
                   child: Padding(
@@ -294,11 +291,11 @@ class _HomePageState extends State<HomePage> {
               }).toList()),
         );
       } else if (carController.carsFeatured.value == null) {
-        return Center(
-            child: Container(
+        return const Center(
+            child: SizedBox(
                 width: 100,
                 height: 100,
-                child: const LoadingIndicator(
+                child: LoadingIndicator(
                   indicatorType: Indicator.ballPulse,
                   strokeWidth: 10,
                 )));
@@ -333,11 +330,11 @@ class _HomePageState extends State<HomePage> {
                   .toList()),
         );
       } else if (carController.carsRec.value == null) {
-        return Center(
-            child: Container(
+        return const Center(
+            child: SizedBox(
                 width: 100,
                 height: 100,
-                child: const LoadingIndicator(
+                child: LoadingIndicator(
                   indicatorType: Indicator.ballPulse,
                   strokeWidth: 10,
                 )));

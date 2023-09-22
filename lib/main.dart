@@ -29,9 +29,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: 'Cars Dealer',
       theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: true,
-          backgroundColor: const Color(0xFF161A25)),
+          useMaterial3: true, colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple).copyWith(background: const Color(0xFF161A25))),
       home: const HomePage(),
     );
   }
