@@ -4,11 +4,14 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:loading_indicator/loading_indicator.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:webappcarsales/car_card.dart';
 import 'package:webappcarsales/car_model.dart';
+import 'package:webappcarsales/cars_make_models.dart';
 
 import 'car_controller.dart';
 import 'dropdown.dart';
+import 'filter_sort.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -18,6 +21,14 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final Uri _url = Uri.parse('https://www.instagram.com/elie_kattour/');
+
+  Future<void> _launchUrl() async {
+    if (!await launchUrl(_url)) {
+      throw Exception('Could not launch $_url');
+    }
+  }
+
   Stream<List<CarModel>> searchCars() {
     var stream1 = FirebaseFirestore.instance
         .collection('cars')
@@ -166,61 +177,289 @@ class _HomePageState extends State<HomePage> {
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Container(
-                            width: 120,
-                            height: 50,
-                            decoration: BoxDecoration(
-                              color: const Color.fromARGB(255, 22, 26, 37),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: FlutterFlowDropDown(
-                              initialOption: carController.selectedSort.value,
-                              options: carController.sortList,
-                              onChanged: (val) {
-                                setState(() {
-                                  print(val);
-                                  carController.selectedSort.value = val;
-                                });
-                              },
-                              names: carController.sortList,
-                              textStyle: TextStyle(
-                                  fontFamily: 'Poppins',
-                                  fontSize: 14,
-                                  color: Colors.white70),
-                              elevation: 0,
-                              fillColor: const Color.fromARGB(255, 19, 23, 32),
-                              borderColor: Colors.transparent,
-                              borderWidth: 0,
-                              icon: ShaderMask(
-                                blendMode: BlendMode.srcIn,
-                                shaderCallback: (Rect bounds) {
-                                  return const RadialGradient(
-                                    center: Alignment.topLeft,
-                                    radius: 0.5,
-                                    colors: <Color>[
-                                      Color(0xB1E51F5C),
-                                      Color(0xFFCB7149)
-                                    ],
-                                    tileMode: TileMode.mirror,
-                                  ).createShader(bounds);
-                                },
-                                child: const Icon(
-                                  Icons.arrow_drop_down_circle_rounded,
-                                  size: 25,
-                                  color: Colors.white,
-                                ),
+                              width: 50,
+                              height: 50,
+                              decoration: BoxDecoration(
+                                color: const Color.fromARGB(255, 22, 26, 37),
+                                borderRadius: BorderRadius.circular(10),
                               ),
-                              borderRadius: 10,
-                              margin: const EdgeInsetsDirectional.fromSTEB(
-                                  12, 0, 12, 0),
-                              hidesUnderline: true,
-                            ),
-                          ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  IconButton(
+                                      onPressed: () {
+                                        showModalBottomSheet(
+                                            shape: const RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.vertical(
+                                                        top: Radius.circular(
+                                                            25.0))),
+                                            backgroundColor:
+                                                const Color.fromARGB(
+                                                    255, 22, 26, 37),
+                                            context: context,
+                                            isDismissible: false,
+                                            isScrollControlled: true,
+                                            builder: (context) => FilterWidget(
+                                                  resetOnTap: () {
+                                                    carController.carsFilterData
+                                                            .value =
+                                                        FilterData(
+                                                            brand: "",
+                                                            model: "",
+                                                            sortBy:
+                                                                carController
+                                                                    .sortList
+                                                                    .first);
+
+                                                    Get.back();
+                                                  },
+                                                  applyOnTap: (FilterData
+                                                      filterData) async {
+                                                    carController.carsFilterData
+                                                        .value = filterData;
+
+                                                    Get.back();
+                                                  },
+                                                  sortBy: carController.sortList
+                                                      .map((e) =>
+                                                          {'name': e, 'id': e})
+                                                      .toList(),
+                                                  initialData: carController
+                                                      .carsFilterData.value,
+                                                  brandAndModel:
+                                                      CarsBrandsModels
+                                                          .carsBrandsModels,
+                                                ));
+                                      },
+                                      icon: Icon(
+                                        Icons.filter_alt,
+                                        color: Colors.white,
+                                        size: 22,
+                                      ))
+                                ],
+                              )),
                         )
                       ],
                     ),
                   ),
                 ),
               ),
+              //filtering
+              // Container(
+              //   color: const Color.fromARGB(255, 13, 16, 22),
+              //   child: Padding(
+              //     padding: const EdgeInsetsDirectional.fromSTEB(10, 0, 10, 5),
+              //     child: Padding(
+              //       padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
+              //       child: Row(
+              //         children: [
+              //           Expanded(child: Container()),
+              //           Padding(
+              //             padding: const EdgeInsets.all(8.0),
+              //             child: Container(
+              //               width: 120,
+              //               height: 50,
+              //               decoration: BoxDecoration(
+              //                 color: const Color.fromARGB(255, 22, 26, 37),
+              //                 borderRadius: BorderRadius.circular(10),
+              //               ),
+              //               child: Row(
+              //                 crossAxisAlignment: CrossAxisAlignment.center,
+              //                 mainAxisAlignment: MainAxisAlignment.center,
+              //                 children: [
+              //                   Text(
+              //                     "Filtering By:",
+              //                     style: TextStyle(
+              //                         fontFamily: 'Poppins',
+              //                         fontSize: 14,
+              //                         color: Colors.white70),
+              //                   )
+              //                 ],
+              //               ),
+              //             ),
+              //           ),
+              //           Padding(
+              //             padding: const EdgeInsets.all(8.0),
+              //             child: Container(
+              //               width: 120,
+              //               height: 50,
+              //               decoration: BoxDecoration(
+              //                 color: const Color.fromARGB(255, 22, 26, 37),
+              //                 borderRadius: BorderRadius.circular(10),
+              //               ),
+              //               child: FlutterFlowDropDown(
+              //                 initialOption: carController.selectBrand,
+              //                 options: CarsBrandsModels.carsBrandsModels.keys
+              //                     .map((e) => e)
+              //                     .toList(),
+              //                 onChanged: (val) {
+              //                   setState(() {
+              //                     print(val);
+              //                     carController.selectBrand = val;
+              //                     carController.selectModel = "";
+              //                   });
+              //                 },
+              //                 names: CarsBrandsModels.carsBrandsModels.keys
+              //                     .map((e) => e)
+              //                     .toList(),
+              //                 textStyle: TextStyle(
+              //                     fontFamily: 'Poppins',
+              //                     fontSize: 14,
+              //                     color: Colors.white70),
+              //                 elevation: 0,
+              //                 fillColor: const Color.fromARGB(255, 19, 23, 32),
+              //                 borderColor: Colors.transparent,
+              //                 borderWidth: 0,
+              //                 icon: ShaderMask(
+              //                   blendMode: BlendMode.srcIn,
+              //                   shaderCallback: (Rect bounds) {
+              //                     return const RadialGradient(
+              //                       center: Alignment.topLeft,
+              //                       radius: 0.5,
+              //                       colors: <Color>[
+              //                         Color(0xB1E51F5C),
+              //                         Color(0xFFCB7149)
+              //                       ],
+              //                       tileMode: TileMode.mirror,
+              //                     ).createShader(bounds);
+              //                   },
+              //                   child: const Icon(
+              //                     Icons.arrow_drop_down_circle_rounded,
+              //                     size: 25,
+              //                     color: Colors.white,
+              //                   ),
+              //                 ),
+              //                 borderRadius: 10,
+              //                 margin: const EdgeInsetsDirectional.fromSTEB(
+              //                     12, 0, 12, 0),
+              //                 hidesUnderline: true,
+              //               ),
+              //             ),
+              //           ),
+              //           Padding(
+              //             padding: const EdgeInsets.all(8.0),
+              //             child: Container(
+              //               width: 120,
+              //               height: 50,
+              //               decoration: BoxDecoration(
+              //                 color: const Color.fromARGB(255, 22, 26, 37),
+              //                 borderRadius: BorderRadius.circular(10),
+              //               ),
+              //               child: FlutterFlowDropDown(
+              //                 initialOption: carController.selectModel,
+              //                 options: carController.selectBrand.isNotEmpty
+              //                     ? CarsBrandsModels.carsBrandsModels[
+              //                             carController.selectBrand]!
+              //                         .map((e) => e)
+              //                         .toList()
+              //                     : [],
+              //                 onChanged: (val) {
+              //                   setState(() {
+              //                     print(val);
+              //                     carController.selectModel = val;
+              //                   });
+              //                 },
+              //                 names: carController.selectBrand.isNotEmpty
+              //                     ? CarsBrandsModels.carsBrandsModels[
+              //                             carController.selectBrand]!
+              //                         .map((e) => e)
+              //                         .toList()
+              //                     : [],
+              //                 textStyle: TextStyle(
+              //                     fontFamily: 'Poppins',
+              //                     fontSize: 14,
+              //                     color: Colors.white70),
+              //                 elevation: 0,
+              //                 fillColor: const Color.fromARGB(255, 19, 23, 32),
+              //                 borderColor: Colors.transparent,
+              //                 borderWidth: 0,
+              //                 icon: ShaderMask(
+              //                   blendMode: BlendMode.srcIn,
+              //                   shaderCallback: (Rect bounds) {
+              //                     return const RadialGradient(
+              //                       center: Alignment.topLeft,
+              //                       radius: 0.5,
+              //                       colors: <Color>[
+              //                         Color(0xB1E51F5C),
+              //                         Color(0xFFCB7149)
+              //                       ],
+              //                       tileMode: TileMode.mirror,
+              //                     ).createShader(bounds);
+              //                   },
+              //                   child: const Icon(
+              //                     Icons.arrow_drop_down_circle_rounded,
+              //                     size: 25,
+              //                     color: Colors.white,
+              //                   ),
+              //                 ),
+              //                 borderRadius: 10,
+              //                 margin: const EdgeInsetsDirectional.fromSTEB(
+              //                     12, 0, 12, 0),
+              //                 hidesUnderline: true,
+              //               ),
+              //             ),
+              //           ),
+              //           InkWell(
+              //             onTap: () {
+              //               (FilterData filterData) async {
+              //                 carController.carsFilterData.value = filterData;
+              //               };
+              //             },
+              //             child: ShaderMask(
+              //               blendMode: BlendMode.srcIn,
+              //               shaderCallback: (Rect bounds) {
+              //                 return const RadialGradient(
+              //                   center: Alignment.topLeft,
+              //                   radius: 0.5,
+              //                   colors: <Color>[
+              //                     Color(0xB1E51F5C),
+              //                     Color(0xFFCB7149)
+              //                   ],
+              //                   tileMode: TileMode.mirror,
+              //                 ).createShader(bounds);
+              //               },
+              //               child: const Icon(
+              //                 Icons.done,
+              //                 size: 25,
+              //                 color: Colors.white,
+              //               ),
+              //             ),
+              //           ),
+              //           InkWell(
+              //             onTap: () {
+              //               carController.carsFilterData.value = FilterData(
+              //                   brand: "",
+              //                   model: "",
+              //                   sortBy: carController.sortList.first);
+              //             },
+              //             child: ShaderMask(
+              //               blendMode: BlendMode.srcIn,
+              //               shaderCallback: (Rect bounds) {
+              //                 return const RadialGradient(
+              //                   center: Alignment.topLeft,
+              //                   radius: 0.5,
+              //                   colors: <Color>[
+              //                     Color(0xB1E51F5C),
+              //                     Color(0xFFCB7149)
+              //                   ],
+              //                   tileMode: TileMode.mirror,
+              //                 ).createShader(bounds);
+              //               },
+              //               child: const Icon(
+              //                 Icons.refresh,
+              //                 size: 25,
+              //                 color: Colors.white,
+              //               ),
+              //             ),
+              //           ),
+              //         ],
+              //       ),
+              //     ),
+              //   ),
+              // ),
+
               carController.carsSearchString.value.isEmpty
                   ? Container()
                   : const Padding(
@@ -305,18 +544,23 @@ class _HomePageState extends State<HomePage> {
               const SizedBox(
                 height: 200,
               ),
-              const Row(
+              Row(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 10),
-                    child: Text(
-                      "2023 \u00a9 Elie Kattour",
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.blueGrey,
+                    child: InkWell(
+                      onTap: () {
+                        _launchUrl();
+                      },
+                      child: Text(
+                        "2023 \u00a9 Elie Kattour",
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.blueGrey,
+                        ),
                       ),
                     ),
                   ),
