@@ -43,6 +43,7 @@ dependencies:
   animated_text_kit: ^4.2.2
   velocity_x: ^4.1.1
   url_launcher: ^6.1.14
+  cached_network_image: ^3.2.3
 
 dev_dependencies:
   flutter_test:

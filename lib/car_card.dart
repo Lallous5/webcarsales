@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:webappcarsales/car_model.dart';
@@ -39,9 +40,11 @@ class CarWidget extends StatelessWidget {
         //     context: context,
         //     builder: (context) => CarDetails(data: carModel));
       },
-      child: SizedBox(
+      child: Container(
         height: 250,
-        width: 300,
+        width: 200,
+        decoration: BoxDecoration(
+            color: Colors.white, borderRadius: BorderRadius.circular(20)),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -50,14 +53,18 @@ class CarWidget extends StatelessWidget {
                 AspectRatio(
                   aspectRatio: 16 / 9,
                   child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Image.network(
-                      carModel.images[0],
-                      fit: BoxFit.cover,
-                    ),
-                  ),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Image(
+                        image: CachedNetworkImageProvider(carModel.images[0]),
+                        fit: BoxFit.cover,
+                      )
+                      // Image.network(
+                      //   carModel.images[0],
+                      //   fit: BoxFit.cover,
+                      // ),
+                      ),
                 ),
                 carModel.isCancelled
                     ? Positioned(
@@ -70,7 +77,7 @@ class CarWidget extends StatelessWidget {
                             height: 50,
                             decoration: BoxDecoration(
                                 border: Border.all(
-                                    color: Colors.red,
+                                    color: Colors.deepOrange,
                                     width: 5,
                                     strokeAlign: BorderSide.strokeAlignInside)),
                             child: const Center(
@@ -88,36 +95,88 @@ class CarWidget extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsetsDirectional.fromSTEB(10, 8, 0, 8),
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        carModel.nameCar.toUpperCase(),
-                        style: const TextStyle(
-                          fontFamily: 'Poppins',
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 18,
+              child: Container(
+                height: 120,
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          carModel.nameCar.toUpperCase(),
+                          style: const TextStyle(
+                            fontFamily: 'Poppins',
+                            color: Colors.black,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 16,
+                          ),
                         ),
-                      ),
-                      Text(
-                        "\$${carModel.price}",
-                        style: const TextStyle(
-                          fontFamily: 'Poppins',
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 18,
+                        Text(
+                          "\$${carModel.price}",
+                          style: const TextStyle(
+                            fontFamily: 'Poppins',
+                            color: Colors.black,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 16,
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                ],
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Column(
+                            children: [
+                              Icon(
+                                Icons.cyclone_outlined,
+                                color: Colors.deepOrange,
+                              ),
+                              Text(
+                                carModel.cylinderSize ?? "",
+                                style: TextStyle(
+                                    fontSize: 12, fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Expanded(
+                          child: Column(
+                            children: [
+                              Icon(
+                                Icons.generating_tokens,
+                                color: Colors.deepOrange,
+                              ),
+                              Text(
+                                carModel.gearBox ?? "",
+                                style: TextStyle(
+                                    fontSize: 12, fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Expanded(
+                          child: Column(
+                            children: [
+                              Icon(
+                                Icons.calendar_month,
+                                color: Colors.deepOrange,
+                              ),
+                              Text(
+                                carModel.year.toString(),
+                                style: TextStyle(
+                                    fontSize: 12, fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
               ),
             ),
           ],

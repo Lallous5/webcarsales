@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:velocity_x/velocity_x.dart';
@@ -53,10 +54,10 @@ class _CarDetailsState extends State<CarDetails> {
                 viewportFraction: 1.0,
                 itemCount: widget.data.images.length,
                 itemBuilder: (context, index) {
-                  return Image.network(
-                    "${widget.data.images[index]}",
-                    width: double.infinity,
-                    fit: BoxFit.fitWidth,
+                  return Image(
+                    image:
+                        CachedNetworkImageProvider(widget.data.images[index]),
+                    fit: BoxFit.cover,
                   );
                 }),
             Text(

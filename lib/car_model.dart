@@ -4,6 +4,13 @@ class CarModel {
   String phoneNumber;
   String? brand;
   String? model;
+  String? bodyType;
+  String? fuelType;
+  String? gearBox;
+  String? condition;
+  String? color;
+  int? year;
+  String? cylinderSize;
   List images;
   // TimeStamp createdAt;
   // DateTime sellAt;
@@ -28,6 +35,13 @@ class CarModel {
     required this.price,
     required this.brand,
     required this.model,
+    required this.bodyType,
+    required this.color,
+    required this.condition,
+    required this.cylinderSize,
+    required this.fuelType,
+    required this.gearBox,
+    required this.year,
     // required this.sellAt,
   });
 
@@ -46,6 +60,13 @@ class CarModel {
       nameCar: json['nameCar'],
       phoneNumber: json['phoneNumber'],
       price: json['price'],
+      bodyType: json['bodyType'],
+      color: json['color'],
+      condition: json['condition'],
+      cylinderSize: json['cylinderSize'],
+      fuelType: json['fuelType'],
+      gearBox: json['gearBox'],
+      year: json['year'],
       // sellAt: json['sellAt'],
     );
   }
@@ -64,6 +85,13 @@ class CarModel {
         'price': price.toString(),
         'brand': brand,
         'model': model,
+        'bodyType': bodyType,
+        'fuelType': fuelType,
+        'gearBox': gearBox,
+        'color': color,
+        'cylinderSize': cylinderSize,
+        'condition': condition,
+        'year': year.toString(),
         // 'sellAt': sellAt,
       };
 }

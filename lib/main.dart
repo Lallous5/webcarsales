@@ -29,7 +29,10 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: 'Farah Motors',
       theme: ThemeData(
-          useMaterial3: true, colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple).copyWith(background: const Color(0xFF161A25))),
+          textTheme: TextTheme(displayLarge: TextStyle(color: Colors.white)),
+          useMaterial3: true,
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple)
+              .copyWith(background: Colors.white)),
       home: const HomePage(),
     );
   }
