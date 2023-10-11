@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-
-import 'car_model.dart';
+import '../model/car_model.dart';
 import 'dropdown.dart';
 
 class FilterWidget extends StatefulWidget {

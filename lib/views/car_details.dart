@@ -2,7 +2,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:velocity_x/velocity_x.dart';
-import 'package:webappcarsales/car_model.dart';
+
+import '../model/car_model.dart';
 
 class CarDetails extends StatefulWidget {
   final CarModel data;

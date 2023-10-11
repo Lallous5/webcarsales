@@ -44,6 +44,7 @@ dependencies:
   velocity_x: ^4.1.1
   url_launcher: ^6.1.14
   cached_network_image: ^3.2.3
+  shimmer: ^3.0.0
 
 dev_dependencies:
   flutter_test:

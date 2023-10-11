@@ -5,14 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:webappcarsales/car_card.dart';
-import 'package:webappcarsales/car_model.dart';
-import 'package:webappcarsales/cars_make_models.dart';
-import 'package:webappcarsales/switch.dart';
+import 'package:webappcarsales/components/switch.dart';
 
-import 'car_controller.dart';
-import 'dropdown.dart';
-import 'filter_sort.dart';
+import '../components/car_card.dart';
+import '../components/dropdown.dart';
+import '../components/filter_sort.dart';
+import '../controller/car_controller.dart';
+import '../model/car_model.dart';
+import '../model/cars_make_models.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});

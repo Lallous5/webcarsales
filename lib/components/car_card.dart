@@ -1,9 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:webappcarsales/car_model.dart';
 
-import 'car_details.dart';
+import '../model/car_model.dart';
+import '../views/car_details.dart';
 
 class CarWidget extends StatelessWidget {
   CarModel carModel;
@@ -182,6 +182,7 @@ class CarWidget extends StatelessWidget {
           ],
         ),
       ),
+  
     );
   }
 }

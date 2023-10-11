@@ -5,8 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:webappcarsales/services.dart';
 
-import 'car_model.dart';
-import 'cars_make_models.dart';
+import '../model/car_model.dart';
+import '../model/cars_make_models.dart';
+
 
 class CarController extends GetxController {
   Rx<List<CarModel>?> carsFeatured = Rxn<List<CarModel>>();

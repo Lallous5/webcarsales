@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:webappcarsales/car_model.dart';
+
+import 'model/car_model.dart';
 
 class StoreServices {
   CollectionReference<Map<String, dynamic>> carsPath =
